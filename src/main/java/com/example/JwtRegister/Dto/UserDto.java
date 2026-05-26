@@ -5,6 +5,8 @@ import com.example.JwtRegister.Entity.User;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
+import java.time.LocalDateTime;
+
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class UserDto {
@@ -20,6 +22,8 @@ public class UserDto {
 	private String role;
 	private String password;
 	private boolean verfied;
+	private String otp;
+	private LocalDateTime otpGeneratedtime;
 	private User user;
 	public int getStatusCode() {
 		return statusCode;
@@ -99,6 +103,20 @@ public class UserDto {
 	public void setVerfied(boolean verfied) {
 		this.verfied = verfied;
 	}
-	
 
+	public String getOtp() {
+		return otp;
+	}
+
+	public LocalDateTime getOtpGeneratedtime() {
+		return otpGeneratedtime;
+	}
+
+	public void setOtp(String otp) {
+		this.otp = otp;
+	}
+
+	public void setOtpGeneratedtime(LocalDateTime otpGeneratedtime) {
+		this.otpGeneratedtime = otpGeneratedtime;
+	}
 }

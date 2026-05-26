@@ -3,6 +3,7 @@ package com.example.JwtRegister.Service;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.HashMap;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -54,7 +55,7 @@ public class AuthService {
 		UserDto resp = new UserDto();
 	   
 	        User ourUser = new User();
-	        
+
 	        ourUser.setFullName(registrationRequest.getFullName());
 	        ourUser.setEmail(registrationRequest.getEmail());
 	        ourUser.setPhoneNumber(registrationRequest.getPhoneNumber());
@@ -86,8 +87,13 @@ public class AuthService {
 	//verifyAccount
 	
 	public String verifyAccount(String email, String otp) {
-	    User user = ouruserRepo.findByEmail(email)
-	            .orElseThrow(() -> new RuntimeException("User not found with this email:" + email));
+		Optional<User> optionalUser = ouruserRepo.findByEmail(email);
+
+		if (optionalUser.isEmpty()) {
+			return "User not found with this email: " + email;
+		}
+
+		User user = optionalUser.get();
 
 	    if (otp != null && otp.trim().equals(user.getOtp()) && Duration.between(user.getOtpGeneratedtime(),
 	            LocalDateTime.now()).getSeconds() < (5 * 60)) {
