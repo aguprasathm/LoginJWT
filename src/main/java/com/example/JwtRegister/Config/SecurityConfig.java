@@ -31,9 +31,9 @@ public class SecurityConfig {
 	public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
 		httpSecurity.csrf(AbstractHttpConfigurer::disable)
 		.authorizeHttpRequests(request -> request.requestMatchers("/auth/**","/public/**", "/h2-console/**").permitAll()
-		.requestMatchers("/admin/**").hasAnyAuthority("ADMIN")
-		.requestMatchers("/user/**").hasAnyAuthority("USER")
-		.requestMatchers("/adminuser/**").hasAnyAuthority("USER","ADMIN")
+		//.requestMatchers("/admin/**").hasAnyAuthority("ADMIN")
+		//.requestMatchers("/user/**").hasAnyAuthority("USER")
+		//.requestMatchers("/adminuser/**").hasAnyAuthority("USER","ADMIN")
 		.anyRequest().authenticated())
 		.sessionManagement(manager -> manager.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 		.authenticationProvider(authenticationProvider()).addFilterBefore(

@@ -42,24 +42,35 @@ public class AuthService {
 	//signUp
 	
 	public UserDto signUp(UserDto registrationRequest) {
-		
-		
+
+		System.out.println(registrationRequest);
+
+		UserDto resp = new UserDto();
+
+		// Check email already exists
+		if (ouruserRepo.existsByEmail(registrationRequest.getEmail())) {
+
+			resp.setStatusCode(400);
+			resp.setMessage("Email already exists");
+
+			return resp;
+		}
+
 		String otp=otpUtil.generateOtp();
 		try {
 			emailUtil.sendOtpEmail(registrationRequest.getEmail(), otp);
 		} catch (MessagingException e) {
 			throw new RuntimeException("unable to send otp please try again");
 		}
-		
-		
-		UserDto resp = new UserDto();
 	   
 	        User ourUser = new User();
 
 	        ourUser.setFullName(registrationRequest.getFullName());
 	        ourUser.setEmail(registrationRequest.getEmail());
 	        ourUser.setPhoneNumber(registrationRequest.getPhoneNumber());
-	        ourUser.setPassword(passwordEncoder.encode(registrationRequest.getPassword()));
+	      //  ourUser.setPassword(passwordEncoder.encode(registrationRequest.getPassword()));
+		ourUser.setPassword(
+				passwordEncoder.encode(passwordEncoder.encode(registrationRequest.getEmail())));
 	        ourUser.setOtp(otp);
 	        ourUser.setOtpGeneratedtime(LocalDateTime.now());
 	        var roles = ourUser.getRole();
@@ -73,14 +84,16 @@ public class AuthService {
 	        ourUser.setRole(role);
 	        
 	        User ourUserResult = ouruserRepo.save(ourUser);
-	        
+
 	        if (ourUserResult != null && ourUserResult.getId() > 0) {
-	            resp.setUser(ourUserResult);
+	           // resp.setUser(ourUserResult);
 	            resp.setMessage("User saved successfully");
 	            resp.setStatusCode(200);
-	            resp.setRole(role); 
+	            resp.setRole(role);
+				//resp.setPhoneNumber(ourUserResult.getPhoneNumber());
+				//resp.setVerfied(ourUserResult.isVerfied());
 	        }
-	  
+
 	    return resp;
 	}
 	

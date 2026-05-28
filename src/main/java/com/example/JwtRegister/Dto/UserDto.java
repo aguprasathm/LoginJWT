@@ -24,7 +24,7 @@ public class UserDto {
 	private boolean verfied;
 	private String otp;
 	private LocalDateTime otpGeneratedtime;
-	private User user;
+	//private User user;
 	public int getStatusCode() {
 		return statusCode;
 	}
@@ -91,12 +91,12 @@ public class UserDto {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	public User getUser() {
-		return user;
-	}
-	public void setUser(User user) {
-		this.user = user;
-	}
+//	public User getUser() {
+//		return user;
+//	}
+//	public void setUser(User user) {
+//		this.user = user;
+//	}
 	public boolean isVerfied() {
 		return verfied;
 	}
