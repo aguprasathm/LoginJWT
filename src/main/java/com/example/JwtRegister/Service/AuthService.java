@@ -54,7 +54,7 @@ public class AuthService {
 			return resp;
 		}
 
-		String otp="111111";
+		String otp="1111";
 
 //		String otp=otpUtil.generateOtp();
 //		try {
