@@ -30,7 +30,7 @@ public class SecurityConfig {
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
 		httpSecurity.csrf(AbstractHttpConfigurer::disable)
-		.authorizeHttpRequests(request -> request.requestMatchers("/auth/**","/public/**", "/h2-console/**").permitAll()
+		.authorizeHttpRequests(request -> request.requestMatchers("loginjwt-production-4036.up.railway.app/auth/*","/auth/**","/public/**", "/h2-console/**").permitAll()
 		//.requestMatchers("/admin/**").hasAnyAuthority("ADMIN")
 		//.requestMatchers("/user/**").hasAnyAuthority("USER")
 		//.requestMatchers("/adminuser/**").hasAnyAuthority("USER","ADMIN")
