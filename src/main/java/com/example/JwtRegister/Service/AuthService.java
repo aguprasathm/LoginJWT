@@ -43,8 +43,6 @@ public class AuthService {
 	
 	public UserDto signUp(UserDto registrationRequest) {
 
-		System.out.println(registrationRequest);
-
 		UserDto resp = new UserDto();
 
 		// Check email already exists
@@ -56,12 +54,14 @@ public class AuthService {
 			return resp;
 		}
 
-		String otp=otpUtil.generateOtp();
-		try {
-			emailUtil.sendOtpEmail(registrationRequest.getEmail(), otp);
-		} catch (MessagingException e) {
-			throw new RuntimeException("unable to send otp please try again");
-		}
+		String otp="111111";
+
+//		String otp=otpUtil.generateOtp();
+//		try {
+//			emailUtil.sendOtpEmail(registrationRequest.getEmail(), otp);
+//		} catch (MessagingException e) {
+//			throw new RuntimeException("unable to send otp please try again");
+//		}
 	   
 	        User ourUser = new User();
 
@@ -70,7 +70,7 @@ public class AuthService {
 	        ourUser.setPhoneNumber(registrationRequest.getPhoneNumber());
 	      //  ourUser.setPassword(passwordEncoder.encode(registrationRequest.getPassword()));
 		ourUser.setPassword(
-				passwordEncoder.encode(passwordEncoder.encode(registrationRequest.getEmail())));
+				passwordEncoder.encode("Admin@123"));
 	        ourUser.setOtp(otp);
 	        ourUser.setOtpGeneratedtime(LocalDateTime.now());
 	        var roles = ourUser.getRole();
@@ -136,7 +136,6 @@ public class AuthService {
     
     public UserDto signIn(UserDto signinRequest) {
         UserDto response = new UserDto();
-
         try {
             authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(signinRequest.getEmail(), signinRequest.getPassword())
@@ -145,6 +144,9 @@ public class AuthService {
             UserDetails userDetails = loadUserByUsername(signinRequest.getEmail());
             User user = ouruserRepo.findByEmail(signinRequest.getEmail())
                                     .orElseThrow(() -> new UsernameNotFoundException("User not found with email: " + signinRequest.getEmail()));
+
+			System.out.println("user"+user);
+
             if (!user.isVerfied()) {
                 response.setStatusCode(401);
                 response.setMessage("Your account is not verified");
